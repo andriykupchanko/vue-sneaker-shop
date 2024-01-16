@@ -4,8 +4,8 @@
 
 <template>
   <div>
-    <h1>blog</h1>
-    <MyHelloComponetvuevue/>
+    <MyHelloComponetvuevue title="кросоввки Nike" :price="1500" :isAdded="true"/>
+    <MyHelloComponetvuevue title="кросоввки Puma" :price="2000" :isAdded="false"/>
   </div>
 </template>
 
