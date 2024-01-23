@@ -14,8 +14,9 @@
         <div>
             <div>
                 <span>
-
+                    Total:
                 </span>
+                <b>1200$</b>
             </div>
         </div>
     </div>
