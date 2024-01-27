@@ -1,23 +1,43 @@
 <script setup>
-import { onMounted,ref } from 'vue';
+import { onMounted,reactive,ref, watch } from 'vue';
 import axios from 'axios';
 
 import Header from './components/Header.vue';
 import CardList from './components/CardList.vue';
 // import Drawer from './components/Drawer.vue';
 
+
+const filters = reactive({
+  sortBy: 'title',
+  searchQuery : ''
+})
 const items = ref([]);
-onMounted(async () => {
+
+const onChangeSelect = (event) =>{
+  filters.sortBy = event.target.value;
+}
+// const onChangeInput = (event) =>{
+//     filters.searchQuery = event.target.value;
+// }
+const featchItems = async () =>{
   try{
-    const {data} = await axios.get ('https://fd8f5ac7362a2e05.mokky.dev/items');
+    const params = {
+      sortBy:filters.sortBy
+    }
+    if(filters.searchQuery){
+      params.title =`*${filters.searchQuery}*`
+    }
+    const {data} = await axios.get (`https://fd8f5ac7362a2e05.mokky.dev/items`,{
+      params
+    })
     items.value = data;
-    console.log(data);
   }catch(e){
     alert(e.message);
   }
-  
-})
+}
 
+onMounted(featchItems);
+watch(filters,featchItems);
 </script>
 
 <template>
@@ -29,15 +49,17 @@ onMounted(async () => {
 
         <h2 class=" text-3xl font-bold ">All sneakers</h2>
 
-        <select class="border py-2 pl-2 pr-3 rounded-md outline-none ">
-          <option>By name</option>
-          <option>By price (cheap)</option>
-          <option>By price (expensive)</option>
+        <select @change="onChangeSelect" class="border py-2 pl-2 pr-3 rounded-md outline-none ">
+          <option value="name">By name</option>
+          <option value="price">By price (cheap)</option>
+          <option value="-price">By price (expensive)</option>
         </select>
 
         <div class="relative" >
           <img class=" absolute left-4 top-3" src="/search.svg" alt="search"/>
-          <input type="text"
+          <input 
+           <!-- @input="onChangeInput" -->
+          type="text"
           placeholder="Search..."
           class="border rounded-md py-2 pl-11 pr-4 outline-none
           focus:border-gray-400"/>
