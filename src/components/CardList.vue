@@ -11,6 +11,7 @@ defineProps({
           :imageUrl="item.imageUrl"
           :title="item.title"
           :price="item.price"
+          :isFavorit="item.isFavorite"
         />
       </div>
       

@@ -4,7 +4,7 @@ defineProps({
   imageUrl: String,
   price: Number,
   isFavorit:Boolean,
-  isAddet:Boolean,
+  isAdded:Boolean,
   onClickAdd:Function,
   onClickFavorite:Function
 })

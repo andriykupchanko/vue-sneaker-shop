@@ -1,7 +1,6 @@
 <script setup>
-import { onMounted,reactive,ref, watch } from 'vue';
+import { onMounted,watch,reactive,ref } from 'vue';
 import axios from 'axios';
-
 import Header from './components/Header.vue';
 import CardList from './components/CardList.vue';
 // import Drawer from './components/Drawer.vue';
@@ -19,25 +18,55 @@ const onChangeSelect = (event) =>{
 const onChangeInput = (event) =>{
     filters.searchQuery = event.target.value;
 }
-const featchItems = async () =>{
-  try{
-    const params = {
-      sortBy:filters.sortBy
-    }
-    if(filters.searchQuery){
-      params.title =`*${filters.searchQuery}*`
-    }
-    const {data} = await axios.get (`https://fd8f5ac7362a2e05.mokky.dev/items`,{
-      params
+const addToFavorite = async (item) => {
+  item. isFavorite = true;
+}
+const featchFavorites = async () => {
+  try {
+    const { data:favorites } = await axios.get (`https://fd8f5ac7362a2e05.mokky.dev/favorites`, {
+      
     })
-    items.value = data;
-  }catch(e){
-    alert(e.message);
+    items.value = items.value.map(item => {
+      const favorite = favorites. find(favorite => favorite.perentId === item.id);
+
+      if(!favorite){
+        return item;
+      }
+      return{
+        ...item,
+        isFavorite: true,
+        favoriteId: favorite.id
+      }
+    })
+  }catch(err) {
+    console.log(err)
   }
 }
-
-onMounted(featchItems);
-watch(filters,featchItems);
+const fetchItems = async () => {
+try {
+  const params = {
+    sortBy: filters.sortBy
+  }
+  if (filters. searchQuery) {
+    params.title = `*${filters.searchQuery}*`
+  }
+  const { data } = await axios.get (`https://fd8f5ac7362a2e05.mokky.dev/items`, {
+    params
+  })
+  items.value = data. map((obj) =>({
+    ...obj,
+    isFavorite: false,
+    isAdded: false
+  }))
+  } catch (err) {
+  console. log (err)
+  }
+}
+onMounted(async ()=>{
+  await fetchItems();
+  await featchFavorites();
+});
+watch(filters,fetchItems);
 </script>
 
 <template>
@@ -73,6 +102,3 @@ watch(filters,featchItems);
   </div>
 </template>
 
-<style scoped>
-
-</style>
