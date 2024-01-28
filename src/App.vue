@@ -19,7 +19,11 @@ const onChangeInput = (event) =>{
     filters.searchQuery = event.target.value;
 }
 const addToFavorite = async (item) => {
-  item. isFavorite = true;
+  try {
+      item. isFavorite = true;
+  }catch(err) {
+    console.log(err)
+  }
 }
 const featchFavorites = async () => {
   try {
