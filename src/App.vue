@@ -25,7 +25,7 @@ const addToFavorite = async (item) => {
     console.log(err)
   }
 }
-const featchFavorites = async () => {
+const featchFavorites  = async () => {
   try {
     const { data:favorites } = await axios.get (`https://fd8f5ac7362a2e05.mokky.dev/favorites`, {
       
