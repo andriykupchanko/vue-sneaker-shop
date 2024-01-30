@@ -18,13 +18,14 @@ const onChangeSelect = (event) =>{
 const onChangeInput = (event) =>{
     filters.searchQuery = event.target.value;
 }
-const addToFavorite = async (item) => {
-  try {
-      item. isFavorite = true;
-  }catch(err) {
-    console.log(err)
-  }
-}
+// const addToFavorite = async (item) => {
+//   try {
+      
+//     item. isFavorite = true;
+//   }catch(err) {
+//     console.log(err)
+//   }
+// }
 const featchFavorites  = async () => {
   try {
     const { data:favorites } = await axios.get (`https://fd8f5ac7362a2e05.mokky.dev/favorites`, {
